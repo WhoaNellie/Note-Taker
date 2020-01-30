@@ -15,6 +15,18 @@ app.listen(PORT, function () {
 });
 
 
+// API request handling
+const fs = require("fs");
+
+
+app.get("/api/notes", function (req, res) {
+
+    let dataBase = JSON.parse(fs.readFileSync("./db.json"));
+    console.log(dataBase);
+    console.log(typeof dataBase);
+    res.send(dataBase);
+});
+
 // setting html routes
 const path = require("path");
 
@@ -25,16 +37,3 @@ app.get("/notes", function (req, res) {
 app.get("*", function (req, res) {
     res.sendFile(path.resolve("../public/index.html"));
 });
-
-// API request handling
-const fs = require("fs");
-
-let dataBase = JSON.parse(fs.readFileSync("./db.json"));
-console.log(dataBase);
-console.log(typeof dataBase);
-
-app.get("/api/notes", function(req, res){
-    res.send(dataBase);
-});
-
-

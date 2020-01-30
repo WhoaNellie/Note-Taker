@@ -130,6 +130,7 @@ let renderNoteList = function(notes) {
 // Gets notes from the db and renders them to the sidebar
 let getAndRenderNotes = function() {
   return getNotes().then(function(data) {
+    console.log(data);
     renderNoteList(data);
   });
 };
@@ -142,4 +143,6 @@ $noteTitle.on("keyup", handleRenderSaveBtn);
 $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
+// getNotes();
 getAndRenderNotes();
+
