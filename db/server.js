@@ -17,15 +17,24 @@ app.listen(PORT, function () {
 
 // API request handling
 const fs = require("fs");
-
+let dataBase = JSON.parse(fs.readFileSync("./db.json"));
+console.log(dataBase[0]);
 
 app.get("/api/notes", function (req, res) {
-
-    let dataBase = JSON.parse(fs.readFileSync("./db.json"));
     console.log(dataBase);
     console.log(typeof dataBase);
-    res.send(dataBase);
+    res.json(dataBase);
 });
+
+app.post("/api/notes", function(req, res) {
+    console.log("post");
+    console.log(typeof req);
+    console.log(req.body);
+
+    dataBase.push(req.body);
+    console.log(dataBase);
+    fs.writeFileSync("./db.json", JSON.stringify(dataBase));
+  });
 
 // setting html routes
 const path = require("path");

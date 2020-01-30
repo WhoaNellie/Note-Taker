@@ -54,6 +54,7 @@ let renderActiveNote = function() {
 // Get the note data from the inputs, save it to the db and update the view
 let handleNoteSave = function() {
   let newNote = {
+    id: "count placeholder",
     title: $noteTitle.val(),
     text: $noteText.val()
   };
