@@ -8,6 +8,7 @@ let $noteList = $(".list-container .list-group");
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
+let currentId = 0;
 
 // A function for getting all notes from the db
 let getNotes = function() {
@@ -53,8 +54,9 @@ let renderActiveNote = function() {
 
 // Get the note data from the inputs, save it to the db and update the view
 let handleNoteSave = function() {
+
   let newNote = {
-    id: "count placeholder",
+    id: activeNote.id,
     title: $noteTitle.val(),
     text: $noteText.val()
   };
@@ -78,6 +80,8 @@ let handleNoteDelete = function(event) {
     activeNote = {};
   }
 
+  console.log(note.id);
+
   deleteNote(note.id).then(function() {
     getAndRenderNotes();
     renderActiveNote();
@@ -87,6 +91,7 @@ let handleNoteDelete = function(event) {
 // Sets the activeNote and displays it
 let handleNoteView = function() {
   activeNote = $(this).data();
+  console.log(activeNote);
   renderActiveNote();
 };
 
@@ -115,7 +120,7 @@ let renderNoteList = function(notes) {
   for (let i = 0; i < notes.length; i++) {
     let note = notes[i];
 
-    let $li = $("<li class='list-group-item'>").data(note);
+    let $li = $(`<li id="${notes[i].id}" class='list-group-item'>`).data(note);
     let $span = $("<span>").text(note.title);
     let $delBtn = $(
       "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
@@ -131,7 +136,7 @@ let renderNoteList = function(notes) {
 // Gets notes from the db and renders them to the sidebar
 let getAndRenderNotes = function() {
   return getNotes().then(function(data) {
-    console.log(data);
+    console.log(data.length);
     renderNoteList(data);
   });
 };

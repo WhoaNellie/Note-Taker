@@ -17,10 +17,11 @@ app.listen(PORT, function () {
 
 // API request handling
 const fs = require("fs");
-let dataBase = JSON.parse(fs.readFileSync("./db.json"));
-console.log(dataBase[0]);
+let dataBase;
 
 app.get("/api/notes", function (req, res) {
+    dataBase = JSON.parse(fs.readFileSync("./db.json"));
+    console.log(dataBase.length);
     console.log(dataBase);
     console.log(typeof dataBase);
     res.json(dataBase);
@@ -31,10 +32,29 @@ app.post("/api/notes", function(req, res) {
     console.log(typeof req);
     console.log(req.body);
 
-    dataBase.push(req.body);
+    if(req.body.id){
+        dataBase[req.body.id]= req.body;
+    }else{
+        req.body.id = dataBase.length;
+        dataBase.push(req.body);
+    }
+    
     console.log(dataBase);
     fs.writeFileSync("./db.json", JSON.stringify(dataBase));
   });
+
+app.delete("/api/notes/:id", function (req, res) {
+    console.log("delete request");
+    let noteId = req.params.id;
+    // console.log(id);
+    dataBase.splice(noteId,1);
+    dataBase.map(function(x){
+        if(x.id > noteId){
+            x.id = x.id - 1;
+        }
+    });
+    fs.writeFileSync("./db.json", JSON.stringify(dataBase));
+});
 
 // setting html routes
 const path = require("path");
