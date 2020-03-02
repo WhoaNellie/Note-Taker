@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 
 const PORT = process.env.PORT || 8080;
-app.use(express.static("../public"));
+app.use(express.static("./public"));
 app.use(express.urlencoded({
     extended: true
 }));
@@ -20,7 +20,7 @@ const fs = require("fs");
 let dataBase;
 
 app.get("/api/notes", function (req, res) {
-    dataBase = JSON.parse(fs.readFileSync("./db.json"));
+    dataBase = JSON.parse(fs.readFileSync("./db/db.json"));
     console.log(dataBase.length);
     console.log(dataBase);
     console.log(typeof dataBase);
@@ -40,7 +40,7 @@ app.post("/api/notes", function(req, res) {
     }
     
     console.log(dataBase);
-    fs.writeFileSync("./db.json", JSON.stringify(dataBase));
+    fs.writeFileSync("./db/db.json", JSON.stringify(dataBase));
   });
 
 app.delete("/api/notes/:id", function (req, res) {
@@ -53,16 +53,16 @@ app.delete("/api/notes/:id", function (req, res) {
             x.id = x.id - 1;
         }
     });
-    fs.writeFileSync("./db.json", JSON.stringify(dataBase));
+    fs.writeFileSync("./db/db.json", JSON.stringify(dataBase));
 });
 
 // setting html routes
 const path = require("path");
 
 app.get("/notes", function (req, res) {
-    res.sendFile(path.resolve("../public/notes.html"));
+    res.sendFile(path.resolve("./public/notes.html"));
 });
 
 app.get("*", function (req, res) {
-    res.sendFile(path.resolve("../public/index.html"));
+    res.sendFile(path.resolve("./public/index.html"));
 });
