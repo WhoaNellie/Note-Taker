@@ -54,6 +54,7 @@ app.delete("/api/notes/:id", function (req, res) {
         }
     });
     fs.writeFileSync("./db/db.json", JSON.stringify(dataBase));
+    res.sendFile(path.resolve("./public/notes.html"));
 });
 
 // setting html routes
