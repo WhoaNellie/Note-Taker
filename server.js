@@ -41,6 +41,7 @@ app.post("/api/notes", function(req, res) {
     
     console.log(dataBase);
     fs.writeFileSync("./db/db.json", JSON.stringify(dataBase));
+    res.sendFile(path.resolve("./public/notes.html"));
   });
 
 app.delete("/api/notes/:id", function (req, res) {
