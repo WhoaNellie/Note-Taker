@@ -1,5 +1,3 @@
-console.log("hello index");
-
 let $noteTitle = $(".note-title");
 let $noteText = $(".note-textarea");
 let $saveNoteBtn = $(".save-note");
@@ -39,7 +37,7 @@ let deleteNote = function(id) {
 let renderActiveNote = function() {
   $saveNoteBtn.hide();
 
-  if (activeNote.id) {
+  if (activeNote.id >= 0) {
     $noteTitle.attr("readonly", true);
     $noteText.attr("readonly", true);
     $noteTitle.val(activeNote.title);
@@ -80,8 +78,6 @@ let handleNoteDelete = function(event) {
     activeNote = {};
   }
 
-  console.log(note.id);
-
   deleteNote(note.id).then(function() {
     getAndRenderNotes();
     renderActiveNote();
@@ -91,7 +87,6 @@ let handleNoteDelete = function(event) {
 // Sets the activeNote and displays it
 let handleNoteView = function() {
   activeNote = $(this).data();
-  console.log(activeNote);
   renderActiveNote();
 };
 
@@ -136,7 +131,6 @@ let renderNoteList = function(notes) {
 // Gets notes from the db and renders them to the sidebar
 let getAndRenderNotes = function() {
   return getNotes().then(function(data) {
-    console.log(data.length);
     renderNoteList(data);
   });
 };
